@@ -6,11 +6,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Add OpenSSL to PATH on Windows — Step‑by‑Step</title>
   <meta name="description" content="Step‑by‑step guide to add OpenSSL to the Windows PATH (user or system) so you can run openssl from any terminal. Verification and troubleshooting included.">
-  <link rel="canonical" href="https://openssl-windows.github.io/add-to-path/">
+  <link rel="canonical" href="https://openssl-windows.github.io/add-to-path.html">
   <meta property="og:title" content="Add OpenSSL to PATH on Windows — Step‑by‑Step">
   <meta property="og:description" content="Add OpenSSL to PATH on Windows 10/11. GUI and command‑line methods, verification, and fixes.">
   <meta property="og:type" content="article">
-  <meta property="og:url" content="https://openssl-windows.github.io/add-to-path/">
+  <meta property="og:url" content="https://openssl-windows.github.io/add-to-path.html">
   <meta property="og:image" content="https://openssl-windows.github.io/og-image.png">
   <meta property="og:locale" content="en_US">
   <meta name="twitter:card" content="summary_large_image">
@@ -92,14 +92,14 @@
     "@context":"https://schema.org",
     "@type":"WebPage",
     "name":"Add OpenSSL to PATH on Windows — Step‑by‑Step",
-    "url":"https://openssl-windows.github.io/add-to-path/",
+    "url":"https://openssl-windows.github.io/add-to-path.html",
     "inLanguage":"en",
     "dateModified":"2026-05-01T18:25:42Z",
     "breadcrumb":{
       "@type":"BreadcrumbList",
       "itemListElement":[
         {"@type":"ListItem","position":1,"name":"Home","item":"https://openssl-windows.github.io/"},
-        {"@type":"ListItem","position":2,"name":"Add to PATH","item":"https://openssl-windows.github.io/add-to-path/"}
+        {"@type":"ListItem","position":2,"name":"Add to PATH","item":"https://openssl-windows.github.io/add-to-path.html"}
       ]
     }
   }
@@ -112,7 +112,7 @@
     "operatingSystem":"Windows 10/11 (64-bit)",
     "applicationCategory":"DeveloperTool",
     "softwareVersion":"4.0.0 (installer)",
-    "url":"https://openssl-windows.github.io/win64-prebuilt/",
+    "url":"https://openssl-windows.github.io/win64-prebuilt.html",
     "downloadUrl":"https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe",
     "isAccessibleForFree":true,
     "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
@@ -151,11 +151,11 @@
         <span>OpenSSL for Windows</span>
       </a>
       <nav aria-label="Primary">
-        <a href="/win64-prebuilt/">Win64 Prebuilt</a>
-        <a href="/verify-hashes/">Verify Hashes</a>
-        <a href="/add-to-path/" aria-current="page">Add to PATH</a>
-        <a href="/libcrypto-dll-error/">Fix DLL Error</a>
-        <a href="/fips-notes/">FIPS Notes</a>
+        <a href="/win64-prebuilt.html">Win64 Prebuilt</a>
+        <a href="/verify-hashes.html">Verify Hashes</a>
+        <a href="/add-to-path.html" aria-current="page">Add to PATH</a>
+        <a href="/libcrypto-dll-error.html">Fix DLL Error</a>
+        <a href="/fips-notes.html">FIPS Notes</a>
       </nav>
     </div>
   </header>
@@ -167,8 +167,8 @@
         <h1>Add OpenSSL to PATH on Windows</h1>
         <p class="sub">Make <code>openssl</code> available from any terminal. Choose per‑user (recommended) or system‑wide, then verify.</p>
         <div class="row">
-          <a class="btn" href="/win64-prebuilt/"><svg aria-hidden="true"><use href="#ic-download"/></svg><span>Back to Download</span></a>
-          <a class="btn secondary" href="/libcrypto-dll-error/"><svg aria-hidden="true"><use href="#ic-dll"/></svg><span>Fix DLL Error</span></a>
+          <a class="btn" href="/win64-prebuilt.html"><svg aria-hidden="true"><use href="#ic-download"/></svg><span>Back to Download</span></a>
+          <a class="btn secondary" href="/libcrypto-dll-error.html"><svg aria-hidden="true"><use href="#ic-dll"/></svg><span>Fix DLL Error</span></a>
           <a class="btn" href="https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe" rel="noopener" onclick="trackDownload('https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe')"><svg aria-hidden="true"><use href="#ic-download"/></svg><span>Download Installer (Win64)</span></a>
         </div>
       </div>
@@ -221,7 +221,7 @@
             <li>Run <code>openssl version</code> — it should print the version line.</li>
             <li>Check the resolved path: <code>where openssl</code> (cmd) or <code>Get-Command openssl</code> (PowerShell).</li>
           </ol>
-          <p>If you see DLL errors, go to <a href="/libcrypto-dll-error/">Fix DLL Error</a>. If the command is not found, recheck your PATH entries.</p>
+          <p>If you see DLL errors, go to <a href="/libcrypto-dll-error.html">Fix DLL Error</a>. If the command is not found, recheck your PATH entries.</p>
         </div>
       </div>
     </section>
@@ -234,7 +234,7 @@
           <li><strong>Path order matters:</strong> Ensure the OpenSSL <code>bin</code> entry appears before conflicting tools.</li>
           <li><strong>Architecture:</strong> Use the x64 build on x64 Windows. Mismatches may cause <code>libcrypto.dll</code> errors.</li>
           <li><strong>MSVC runtime:</strong> Install the <a href="https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist?view=msvc-170" target="_blank" rel="noopener">Microsoft Visual C++ Redistributable</a> if required.</li>
-          <li><strong>Still stuck?</strong> See <a href="/libcrypto-dll-error/">Fix DLL Error</a> for step‑by‑step fixes.</li>
+          <li><strong>Still stuck?</strong> See <a href="/libcrypto-dll-error.html">Fix DLL Error</a> for step‑by‑step fixes.</li>
         </ul>
       </div>
     </section>
@@ -243,10 +243,10 @@
       <div class="container panel">
         <h2 id="rel-guides">Related guides</h2>
         <div class="list">
-          <a href="/win64-prebuilt/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-download"/></svg> Download OpenSSL (Win64)</a>
-          <a href="/verify-hashes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-verify"/></svg> Verify Hashes for the Installer</a>
-          <a href="/libcrypto-dll-error/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-dll"/></svg> Fix libcrypto.dll / libssl.dll errors</a>
-          <a href="/fips-notes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-shield"/></svg> OpenSSL FIPS Notes</a>
+          <a href="/win64-prebuilt.html"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-download"/></svg> Download OpenSSL (Win64)</a>
+          <a href="/verify-hashes.html"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-verify"/></svg> Verify Hashes for the Installer</a>
+          <a href="/libcrypto-dll-error.html"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-dll"/></svg> Fix libcrypto.dll / libssl.dll errors</a>
+          <a href="/fips-notes.html"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-shield"/></svg> OpenSSL FIPS Notes</a>
         </div>
       </div>
     </section>
