@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Fix libcrypto.dll (or libssl.dll) Errors on Windows — Quick Guide</title>
+  <meta name="description" content="Fix libcrypto.dll/libssl.dll missing errors on Windows. Match x64 builds, install Microsoft Visual C++ Redistributable, add OpenSSL to PATH, or place DLLs next to the app.">
+  <link rel="canonical" href="https://openssl-windows.github.io/libcrypto-dll-error/">
+  <meta property="og:title" content="Fix libcrypto.dll (or libssl.dll) Errors on Windows — Quick Guide">
+  <meta property="og:description" content="Resolve missing DLL errors: architecture match, VC++ runtime, PATH setup, and local deployment options.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openssl-windows.github.io/libcrypto-dll-error/">
+  <meta property="og:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Fix libcrypto.dll (or libssl.dll) Errors on Windows — Quick Guide">
+  <meta name="twitter:description" content="Step-by-step fixes for common OpenSSL DLL issues on Windows.">
+  <meta name="twitter:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta name="theme-color" content="#a51e22">
+  <meta property="article:modified_time" content="2026-05-01T18:27:42Z">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root{--bg:#ffffff;--bg-alt:#f6f6f6;--text:#111;--muted:#444;--brand:#a51e22;--brand-600:#7f171a;--focus:#004aad;--radius:12px;--maxw:1080px}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    a:focus,button:focus{outline:2px solid var(--focus);outline-offset:2px}
+    code{background:#fafafa;border:1px solid #eee;border-radius:6px;padding:0 4px}
+    pre{background:#fafafa;border:1px solid #eee;border-radius:10px;padding:12px;overflow:auto}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header{border-bottom:1px solid #e6e6e6;background:#fff;position:sticky;top:0;z-index:50}
+    .topbar{display:flex;align-items:center;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand svg{width:28px;height:28px;fill:var(--brand)}
+    nav{margin-left:auto}
+    nav a{margin:0 10px;font-weight:600}
+    .hero{background:var(--bg-alt);padding:36px 0}
+    .hero h1{margin:0 0 8px;font-size:clamp(1.8rem,3vw,2.4rem)}
+    .hero p.sub{margin:0 0 18px;color:var(--muted)}
+    .breadcrumbs{font-size:.95rem;margin:10px 0;color:var(--muted)}
+    .breadcrumbs a{color:inherit}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:2px solid var(--brand);color:#fff;background:var(--brand);padding:12px 16px;border-radius:10px;font-weight:700}
+    .btn:hover{background:var(--brand-600);border-color:var(--brand-600);text-decoration:none}
+    .btn.secondary{background:transparent;color:var(--brand)}
+    .btn svg{width:18px;height:18px;fill:currentColor}
+    .row{display:flex;flex-wrap:wrap;gap:12px}
+    .section{padding:28px 0}
+    .panel{background:#fff;border:1px solid #eee;border-radius:var(--radius);padding:16px}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+    .col-12{grid-column:span 12}
+    @media(min-width:800px){.col-6{grid-column:span 6}}
+    footer{border-top:1px solid #e6e6e6;margin-top:24px}
+    .footer-inner{padding:20px 0;color:var(--muted);font-size:.95rem}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #eee;border-radius:999px;padding:6px 10px;background:#fff}
+    .muted{color:var(--muted)}
+    .list{display:grid;gap:10px}
+    .list .qa{border:1px solid #eee;border-radius:10px;padding:12px;background:#fff}
+    /* Cookie banner */
+    .cookie{position:fixed;z-index:70;inset:auto 10px 10px 10px;background:#fff;border:1px solid #ddd;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:16px;display:none;max-width:680px}
+    .cookie.show{display:block}
+    .cookie h3{margin:0 0 6px;font-size:1.05rem}
+    .cookie p{margin:0 0 12px;color:var(--muted)}
+    .cookie .row{display:flex;gap:10px;flex-wrap:wrap}
+    .cookie button{border:2px solid var(--brand);background:var(--brand);color:#fff;border-radius:10px;padding:10px 12px;font-weight:700}
+    .cookie button.secondary{background:transparent;color:var(--brand)}
+    .cookie .ghost{border-color:#bbb;color:#444}
+    .sr-only{position:absolute;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}
+  </style>
+  <!-- GA4 (Consent Mode default denied) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LS4WMPCHEP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('consent','default',{
+      analytics_storage:'denied',
+      ad_storage:'denied',
+      functionality_storage:'granted',
+      security_storage:'granted',
+      wait_for_update:500
+    });
+    gtag('js', new Date());
+    gtag('config','G-LS4WMPCHEP');
+  </script>
+  <!-- JSON-LD: WebPage + SoftwareApplication + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Fix libcrypto.dll (or libssl.dll) Errors on Windows — Quick Guide",
+    "url":"https://openssl-windows.github.io/libcrypto-dll-error/",
+    "inLanguage":"en",
+    "dateModified":"2026-05-01T18:27:42Z",
+    "breadcrumb":{
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://openssl-windows.github.io/"},
+        {"@type":"ListItem","position":2,"name":"Fix DLL Error","item":"https://openssl-windows.github.io/libcrypto-dll-error/"}
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"OpenSSL for Windows (Win64)",
+    "operatingSystem":"Windows 10/11 (64-bit)",
+    "applicationCategory":"DeveloperTool",
+    "softwareVersion":"4.0.0 (installer)",
+    "url":"https://openssl-windows.github.io/win64-prebuilt/",
+    "downloadUrl":"https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe",
+    "isAccessibleForFree":true,
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "publisher":{"@type":"Organization","name":"OpenSSL for Windows (Unofficial)","url":"https://openssl-windows.github.io/"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Windows reports libcrypto.dll is missing. How do I fix it?","acceptedAnswer":{"@type":"Answer","text":"Use the x64 build on x64 Windows, install the Microsoft Visual C++ Redistributable, and ensure the OpenSSL bin path is on PATH. Then open a new terminal and try again."}},
+      {"@type":"Question","name":"Do I need to install the VC++ runtime?","acceptedAnswer":{"@type":"Answer","text":"Often yes. Many Windows builds depend on the MSVC runtime. Install the latest supported Microsoft Visual C++ Redistributable from Microsoft and reboot if prompted."}},
+      {"@type":"Question","name":"Can I place DLLs next to my app?","acceptedAnswer":{"@type":"Answer","text":"Yes. Windows will load DLLs from the application directory first. Copy libcrypto-3-x64.dll and libssl-3-x64.dll next to your executable as a local deployment workaround."}},
+      {"@type":"Question","name":"Why does it still fail after editing PATH?","acceptedAnswer":{"@type":"Answer","text":"Open a new terminal so it picks up the updated PATH, check the order of entries, and verify with 'where openssl' (cmd) or 'Get-Command openssl' (PowerShell)."}},
+      {"@type":"Question","name":"How do I confirm which OpenSSL is used?","acceptedAnswer":{"@type":"Answer","text":"Run 'where openssl' in Command Prompt or 'Get-Command openssl' in PowerShell to see the resolved path, then run 'openssl version -a'."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- SVG sprite -->
+  <svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 1 1 8.707 10.293L11 12.586V4a1 1 0 0 1 1-1z"></path><path d="M5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"></path></symbol>
+    <symbol id="ic-verify" viewBox="0 0 24 24"><path d="M12 2l3.09 3.09L19 6l-1.91 3.09L17 12l-3.09-1.91L10 12l.91-2.91L9 6l3.09-.91L12 2z"></path><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-path" viewBox="0 0 24 24"><path d="M4 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h11" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-dll" viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 2v5h5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 14h2v4H7zm4 0h2v4h-2zm4 0h2v4h-2z"/></symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="ic-external" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V7.414l-8.293 8.293-1.414-1.414L17.586 6H14V3z"></path><path d="M5 5h6v2H7v10h10v-4h2v6H5V5z"></path></symbol>
+  </svg>
+
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/" aria-label="OpenSSL for Windows home">
+        <svg aria-hidden="true"><use href="#ic-shield"/></svg>
+        <span>OpenSSL for Windows</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="/win64-prebuilt/">Win64 Prebuilt</a>
+        <a href="/verify-hashes/">Verify Hashes</a>
+        <a href="/add-to-path/">Add to PATH</a>
+        <a href="/libcrypto-dll-error/" aria-current="page">Fix DLL Error</a>
+        <a href="/fips-notes/">FIPS Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="breadcrumbs" aria-label="Breadcrumbs"><a href="/">Home</a> › Fix DLL Error</div>
+        <h1>Fix libcrypto.dll (or libssl.dll) Errors on Windows</h1>
+        <p class="sub">Common reasons and fast fixes: architecture mismatch, missing VC++ runtime, missing PATH, or local deployment options.</p>
+        <div class="row">
+          <a class="btn" href="/win64-prebuilt/"><svg aria-hidden="true"><use href="#ic-download"/></svg><span>Back to Download</span></a>
+          <a class="btn secondary" href="/add-to-path/"><svg aria-hidden="true"><use href="#ic-path"/></svg><span>Add to PATH</span></a>
+          <a class="btn" href="https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe" rel="noopener" onclick="trackDownload('https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe')"><svg aria-hidden="true"><use href="#ic-download"/></svg><span>Download Installer (Win64)</span></a>
+        </div>
+        <p class="muted" style="margin-top:8px">We are not affiliated with the OpenSSL project. External downloads are hosted by their vendors.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container panel"><strong>TL;DR:</strong> Install the latest Microsoft Visual C++ Redistributable, ensure you’re using the x64 build on x64 Windows, add the OpenSSL <code>bin</code> to PATH, open a new terminal, and try again.</div>
+    </section>
+
+    <section class="section" aria-labelledby="causes">
+      <div class="container grid">
+        <div class="col-6 panel">
+          <h2 id="causes">Most common causes</h2>
+          <ul>
+            <li>Architecture mismatch (e.g., using 32‑bit DLLs on a 64‑bit app or vice versa).</li>
+            <li>Missing Microsoft Visual C++ Runtime (MSVC).</li>
+            <li>OpenSSL <code>bin</code> folder not on PATH.</li>
+            <li>App cannot locate the DLLs (no local copy next to the executable).</li>
+            <li>Terminal not restarted after PATH changes.</li>
+          </ul>
+        </div>
+        <div class="col-6 panel">
+          <h2>Quick checklist</h2>
+          <ul>
+            <li><code>openssl version -a</code> — confirm the binary runs and prints details.</li>
+            <li><code>where openssl</code> (cmd) or <code>Get-Command openssl</code> (PowerShell) — confirm the resolved path.</li>
+            <li>Check folder exists: <code>C:\\Program Files\\OpenSSL-Win64\\bin</code> (example).</li>
+            <li>Install/repair the <a href="https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist?view=msvc-170" target="_blank" rel="noopener">VC++ Redistributable</a>.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="steps">
+      <div class="container grid">
+        <div class="col-12 panel">
+          <h2 id="steps">Fix it step by step</h2>
+          <ol>
+            <li><strong>Match architectures.</strong> On 64‑bit Windows, use the Win64 installer. Mixing x86 and x64 components commonly triggers DLL errors.</li>
+            <li><strong>Install the Microsoft Visual C++ Redistributable.</strong> Get the latest supported package from Microsoft. Choose the x64 package; install and reboot if prompted.</li>
+            <li><strong>Add the OpenSSL bin to PATH.</strong> Follow <a href="/add-to-path/">Add to PATH</a> and ensure the entry appears before conflicting tools.</li>
+            <li><strong>Try a local deployment.</strong> Place <code>libcrypto-3-x64.dll</code> and <code>libssl-3-x64.dll</code> next to your application’s executable. Windows searches the app directory first.</li>
+            <li><strong>Open a new terminal.</strong> PATH changes aren’t applied to already open shells. Close and reopen your terminal or app.</li>
+            <li><strong>Reinstall or repair.</strong> If files are corrupted or missing, re‑run the installer: <a href="https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe" rel="noopener" onclick="trackDownload('https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe')">Win64OpenSSL_Light-4_0_0.exe</a>.</li>
+            <li><strong>Verify file integrity.</strong> Hash‑check the installer before running it. See <a href="/verify-hashes/">Verify Hashes</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="related">
+      <div class="container panel">
+        <h2 id="related">Related guides</h2>
+        <div class="list">
+          <a href="/win64-prebuilt/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-download"/></svg> Download OpenSSL (Win64)</a>
+          <a href="/verify-hashes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-verify"/></svg> Verify Hashes for the Installer</a>
+          <a href="/add-to-path/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-path"/></svg> Add OpenSSL to PATH (Windows)</a>
+          <a href="/fips-notes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-shield"/></svg> OpenSSL FIPS Notes</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>Not affiliated with the OpenSSL project. External downloads are hosted by their respective vendors.</div>
+      <div class="badges">
+        <span class="badge" id="last-updated">Last updated: <span>—</span></span>
+        <a class="badge" href="/robots.txt">robots.txt</a>
+        <a class="badge" href="/sitemap.xml">sitemap.xml</a>
+        <a class="badge" href="/privacy/">Privacy</a>
+        <a class="badge" href="/terms/">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cookie banner -->
+  <div class="cookie" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <h3>Cookie & analytics</h3>
+    <p>We use privacy‑friendly analytics (GA4) to understand traffic. You can accept or decline analytics cookies. You can change your choice anytime by clearing site data.</p>
+    <div class="row">
+      <button id="cookie-accept">Accept</button>
+      <button id="cookie-decline" class="secondary">Decline</button>
+      <button id="cookie-close" class="secondary ghost" aria-label="Close cookie banner">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Last updated
+    (function(){
+      var el = document.querySelector('#last-updated span');
+      if(el){ el.textContent = new Date(document.lastModified).toLocaleString(); }
+    })();
+
+    // Consent handling
+    const CONSENT_KEY = 'ga_consent';
+    function getConsent(){ try { return localStorage.getItem(CONSENT_KEY) || 'undecided'; } catch(e){ return 'undecided'; } }
+    function setConsent(v){ try { localStorage.setItem(CONSENT_KEY,v); } catch(e){} }
+    const banner = document.getElementById('cookie-banner');
+    const btnAccept = document.getElementById('cookie-accept');
+    const btnDecline = document.getElementById('cookie-decline');
+    const btnClose = document.getElementById('cookie-close');
+    function applyConsent(state){
+      if(state==='granted'){
+        gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied'});
+      } else {
+        gtag('consent','update',{analytics_storage:'denied',ad_storage:'denied'});
+      }
+    }
+    function initConsent(){
+      var s = getConsent();
+      if(s==='granted'){ applyConsent('granted'); banner.classList.remove('show'); }
+      else if(s==='denied'){ applyConsent('denied'); banner.classList.remove('show'); }
+      else { banner.classList.add('show'); }
+    }
+    btnAccept.addEventListener('click', function(){ setConsent('granted'); applyConsent('granted'); banner.classList.remove('show'); });
+    btnDecline.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+    btnClose.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+    initConsent();
+
+    // Download tracking
+    function trackDownload(url){
+      try{
+        gtag('event','file_download',{
+          event_category:'downloads',
+          event_label:'Win64OpenSSL_Light-4_0_0.exe',
+          file_url:url
+        });
+      }catch(e){}
+    }
+  </script>
+</body>
+</html>

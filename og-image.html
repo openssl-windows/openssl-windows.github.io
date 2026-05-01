@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OG Image Generator — OpenSSL for Windows</title>
+  <meta name="robots" content="noindex, nofollow">
+  <style>
+    :root{--brand:#a51e22;--brand-dark:#7f171a;--text:#ffffff;--muted:#ffffffcc}
+    *{box-sizing:border-box}
+    html,body{margin:0;background:#111;font:16px/1.5 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial}
+    .wrap{min-height:100vh;display:flex;align-items:center;justify-content:center;gap:24px;padding:20px;flex-direction:column}
+    .toolbar{display:flex;gap:10px;flex-wrap:wrap}
+    button{border:2px solid var(--brand);background:var(--brand);color:#fff;border-radius:10px;padding:10px 14px;font-weight:700;cursor:pointer}
+    button.secondary{background:transparent;color:#fff}
+    .note{color:#ddd;font-size:.95rem}
+    /* Centered canvas frame */
+    .frame{box-shadow:0 20px 60px rgba(0,0,0,.35);border-radius:8px;overflow:hidden}
+    svg{display:block}
+    .sr-only{position:absolute;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <h1 class="sr-only">OG Image Generator — OpenSSL for Windows</h1>
+    <div class="frame" aria-label="Social preview image (1200x630)">
+      <!-- 1200x630 OG image as SVG for crisp export -->
+      <svg id="ogsvg" width="1200" height="630" viewBox="0 0 1200 630" xmlns="http://www.w3.org/2000/svg" role="img" aria-labelledby="title desc">
+        <title id="title">OpenSSL for Windows (Win64) — Social Image</title>
+        <desc id="desc">Brand image with title, tagline, and domain for social previews.</desc>
+        <defs>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#b92327"/>
+            <stop offset="100%" stop-color="#7f171a"/>
+          </linearGradient>
+          <linearGradient id="shine" x1="0" y1="0" x2="1" y2="0">
+            <stop offset="0%" stop-color="#ffffff11"/>
+            <stop offset="100%" stop-color="#ffffff22"/>
+          </linearGradient>
+          <symbol id="shield" viewBox="0 0 64 64">
+            <path d="M32 4L56 12v18c0 16-10.7 30.5-24 34C18.7 60.5 8 46 8 30V12l24-8z"/>
+          </symbol>
+        </defs>
+        <!-- Background -->
+        <rect width="1200" height="630" fill="url(#g1)"/>
+        <!-- Subtle shine strip -->
+        <rect x="0" y="0" width="1200" height="630" fill="url(#shine)"/>
+        <!-- Watermark shield -->
+        <g transform="translate(860,70) scale(4.8)" opacity="0.08" fill="#ffffff">
+          <use href="#shield"/>
+        </g>
+        <!-- Title -->
+        <g font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial" fill="#ffffff">
+          <text x="80" y="250" font-size="72" font-weight="800">OpenSSL for Windows (Win64)</text>
+          <text x="80" y="330" font-size="34" fill="#ffffffcc">Download • Verify • Add to PATH • Fix DLL • FIPS Notes</text>
+        </g>
+        <!-- Domain tag -->
+        <g>
+          <rect x="860" y="540" rx="8" ry="8" width="300" height="50" fill="#ffffff22"/>
+          <text x="1010" y="572" text-anchor="middle" font-family="system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial" font-size="24" fill="#ffffff" font-weight="700">openssl-windows.github.io</text>
+        </g>
+      </svg>
+    </div>
+    <div class="toolbar" role="group" aria-label="Export controls">
+      <button id="download">Download PNG (1200×630)</button>
+      <button class="secondary" id="copy">Copy PNG to clipboard</button>
+    </div>
+    <p class="note">Save as og-image.png in your site root and reference it in meta tags.</p>
+  </div>
+  <script>
+    const svg = document.getElementById('ogsvg');
+    const btn = document.getElementById('download');
+    const btnCopy = document.getElementById('copy');
+
+    function svgToPngBlob(svgEl, width, height){
+      const xml = new XMLSerializer().serializeToString(svgEl);
+      const svgBlob = new Blob([xml], {type:'image/svg+xml'});
+      return new Promise((resolve,reject)=>{
+        const url = URL.createObjectURL(svgBlob);
+        const img = new Image();
+        img.onload = () => {
+          try{
+            const canvas = document.createElement('canvas');
+            canvas.width = width; canvas.height = height;
+            const ctx = canvas.getContext('2d');
+            ctx.fillStyle = '#a51e22';
+            ctx.fillRect(0,0,width,height);
+            ctx.drawImage(img,0,0,width,height);
+            canvas.toBlob(b=>{ URL.revokeObjectURL(url); if(b) resolve(b); else reject(new Error('Blob failed')); }, 'image/png');
+          }catch(e){ URL.revokeObjectURL(url); reject(e); }
+        };
+        img.onerror = (e)=>{ URL.revokeObjectURL(url); reject(e); };
+        img.src = url;
+      });
+    }
+
+    btn.addEventListener('click', async ()=>{
+      try{
+        const blob = await svgToPngBlob(svg, 1200, 630);
+        const a = document.createElement('a');
+        a.download = 'og-image.png';
+        a.href = URL.createObjectURL(blob);
+        document.body.appendChild(a);
+        a.click();
+        setTimeout(()=>{ URL.revokeObjectURL(a.href); a.remove(); }, 1000);
+      }catch(e){ alert('Export failed: ' + e); }
+    });
+
+    btnCopy.addEventListener('click', async ()=>{
+      if(!('clipboard' in navigator) || !('write' in navigator.clipboard)){
+        alert('Clipboard API not available in this browser. Please use Download.');
+        return;
+      }
+      try{
+        const blob = await svgToPngBlob(svg, 1200, 630);
+        await navigator.clipboard.write([new ClipboardItem({'image/png': blob})]);
+        alert('PNG copied to clipboard!');
+      }catch(e){ alert('Copy failed: ' + e); }
+    });
+  </script>
+</body>
+</html>

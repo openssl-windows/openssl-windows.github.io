@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Download OpenSSL for Windows (64‑bit) — Prebuilt Installer</title>
+  <meta name="description" content="Get a safe Win64 OpenSSL installer for Windows 10/11. Integrity tips, compatibility notes, and quick setup: verify hashes, add to PATH, and fix libcrypto.dll errors.">
+  <link rel="canonical" href="https://openssl-windows.github.io/win64-prebuilt/">
+  <meta property="og:title" content="Download OpenSSL for Windows (64‑bit) — Prebuilt Installer">
+  <meta property="og:description" content="Get a safe Win64 OpenSSL installer for Windows 10/11. Verify hashes, add to PATH, and fix common DLL errors.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openssl-windows.github.io/win64-prebuilt/">
+  <meta property="og:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Download OpenSSL for Windows (64‑bit) — Prebuilt Installer">
+  <meta name="twitter:description" content="Get a safe Win64 OpenSSL installer for Windows 10/11 with integrity and setup tips.">
+  <meta name="twitter:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta name="theme-color" content="#a51e22">
+  <meta property="article:modified_time" content="2026-05-01T18:21:44Z">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root{--bg:#ffffff;--bg-alt:#f6f6f6;--text:#111;--muted:#444;--brand:#a51e22;--brand-600:#7f171a;--focus:#004aad;--radius:12px;--maxw:1080px}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    a:focus,button:focus{outline:2px solid var(--focus);outline-offset:2px}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header{border-bottom:1px solid #e6e6e6;background:#fff;position:sticky;top:0;z-index:50}
+    .topbar{display:flex;align-items:center;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand svg{width:28px;height:28px;fill:var(--brand)}
+    nav{margin-left:auto}
+    nav a{margin:0 10px;font-weight:600}
+    .hero{background:var(--bg-alt);padding:36px 0}
+    .hero h1{margin:0 0 8px;font-size:clamp(1.8rem,3vw,2.4rem)}
+    .hero p.sub{margin:0 0 18px;color:var(--muted)}
+    .breadcrumbs{font-size:.95rem;margin:10px 0;color:var(--muted)}
+    .breadcrumbs a{color:inherit}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:2px solid var(--brand);color:#fff;background:var(--brand);padding:12px 16px;border-radius:10px;font-weight:700}
+    .btn:hover{background:var(--brand-600);border-color:var(--brand-600);text-decoration:none}
+    .btn.secondary{background:transparent;color:var(--brand)}
+    .btn svg{width:18px;height:18px;fill:currentColor}
+    .row{display:flex;flex-wrap:wrap;gap:12px}
+    .section{padding:28px 0}
+    .panel{background:#fff;border:1px solid #eee;border-radius:var(--radius);padding:16px}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+    .col-12{grid-column:span 12}
+    @media(min-width:800px){.col-6{grid-column:span 6}}
+    .kvs{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+    .kv{display:inline-flex;gap:6px;align-items:center;border:1px solid #eee;border-radius:999px;padding:6px 10px;background:#fff}
+    code{background:#fafafa;border:1px solid #eee;border-radius:6px;padding:0 4px}
+    footer{border-top:1px solid #e6e6e6;margin-top:24px}
+    .footer-inner{padding:20px 0;color:var(--muted);font-size:.95rem}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #eee;border-radius:999px;padding:6px 10px;background:#fff}
+    .muted{color:var(--muted)}
+    .list{display:grid;gap:10px}
+    .list a{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #eee;border-radius:10px}
+    .list a:hover{background:#fafafa}
+    /* Cookie banner */
+    .cookie{position:fixed;z-index:70;inset:auto 10px 10px 10px;background:#fff;border:1px solid #ddd;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:16px;display:none;max-width:680px}
+    .cookie.show{display:block}
+    .cookie h3{margin:0 0 6px;font-size:1.05rem}
+    .cookie p{margin:0 0 12px;color:var(--muted)}
+    .cookie .row{display:flex;gap:10px;flex-wrap:wrap}
+    .cookie button{border:2px solid var(--brand);background:var(--brand);color:#fff;border-radius:10px;padding:10px 12px;font-weight:700}
+    .cookie button.secondary{background:transparent;color:var(--brand)}
+    .cookie .ghost{border-color:#bbb;color:#444}
+    .sr-only{position:absolute;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}
+  </style>
+  <!-- GA4 base (Consent Mode default denied) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LS4WMPCHEP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('consent','default',{
+      analytics_storage:'denied',
+      ad_storage:'denied',
+      functionality_storage:'granted',
+      security_storage:'granted',
+      wait_for_update:500
+    });
+    gtag('js', new Date());
+    gtag('config','G-LS4WMPCHEP');
+  </script>
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Download OpenSSL for Windows (64‑bit) — Prebuilt Installer",
+    "url":"https://openssl-windows.github.io/win64-prebuilt/",
+    "inLanguage":"en",
+    "dateModified":"2026-05-01T18:21:44Z",
+    "breadcrumb":{
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://openssl-windows.github.io/"},
+        {"@type":"ListItem","position":2,"name":"Win64 Prebuilt","item":"https://openssl-windows.github.io/win64-prebuilt/"}
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"OpenSSL for Windows (Win64)",
+    "operatingSystem":"Windows 10/11 (64-bit)",
+    "applicationCategory":"DeveloperTool",
+    "softwareVersion":"4.0.0 (installer)",
+    "url":"https://openssl-windows.github.io/win64-prebuilt/",
+    "downloadUrl":"https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe",
+    "isAccessibleForFree":true,
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "publisher":{"@type":"Organization","name":"OpenSSL for Windows (Unofficial)","url":"https://openssl-windows.github.io/"},
+    "additionalProperty":[
+      {"@type":"PropertyValue","name":"OpenSSL core","value":"3.x series"},
+      {"@type":"PropertyValue","name":"Architecture","value":"x86_64 (Win64)"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"Is this an official OpenSSL installer?","acceptedAnswer":{"@type":"Answer","text":"No. This page links to a third‑party Windows build and provides setup guidance. We are not affiliated with the OpenSSL project."}},
+      {"@type":"Question","name":"Which Windows versions are supported?","acceptedAnswer":{"@type":"Answer","text":"Windows 10 and Windows 11 (64‑bit)."}},
+      {"@type":"Question","name":"How do I verify the download?","acceptedAnswer":{"@type":"Answer","text":"Use certutil or PowerShell Get-FileHash to compute the SHA256 hash and compare it to the vendor‑published value. See the Verify Hashes guide on this site."}},
+      {"@type":"Question","name":"The system says libcrypto.dll is missing. What now?","acceptedAnswer":{"@type":"Answer","text":"Ensure you installed the x64 build on a 64‑bit system, add the bin folder to PATH, and install the Microsoft Visual C++ Redistributable if required."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- SVG sprite -->
+  <svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 1 1 8.707 10.293L11 12.586V4a1 1 0 0 1 1-1z"></path><path d="M5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"></path></symbol>
+    <symbol id="ic-verify" viewBox="0 0 24 24"><path d="M12 2l3.09 3.09L19 6l-1.91 3.09L17 12l-3.09-1.91L10 12l.91-2.91L9 6l3.09-.91L12 2z"></path><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-path" viewBox="0 0 24 24"><path d="M4 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h11" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-dll" viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 2v5h5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 14h2v4H7zm4 0h2v4h-2zm4 0h2v4h-2z"/></symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="ic-external" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V7.414l-8.293 8.293-1.414-1.414L17.586 6H14V3z"></path><path d="M5 5h6v2H7v10h10v-4h2v6H5V5z"></path></symbol>
+  </svg>
+
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/" aria-label="OpenSSL for Windows home">
+        <svg aria-hidden="true"><use href="#ic-shield"/></svg>
+        <span>OpenSSL for Windows</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="/win64-prebuilt/" aria-current="page">Win64 Prebuilt</a>
+        <a href="/verify-hashes/">Verify Hashes</a>
+        <a href="/add-to-path/">Add to PATH</a>
+        <a href="/libcrypto-dll-error/">Fix DLL Error</a>
+        <a href="/fips-notes/">FIPS Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="breadcrumbs" aria-label="Breadcrumbs"><a href="/">Home</a> › Win64 Prebuilt</div>
+        <h1>Download OpenSSL for Windows (64‑bit)</h1>
+        <p class="sub">Windows 10/11 x64 build. Verify the download, install, then add to PATH. Troubleshooting guides included.</p>
+        <div class="row">
+          <a id="download-cta" class="btn" href="https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe" rel="noopener" onclick="trackDownload('https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe')">
+            <svg aria-hidden="true"><use href="#ic-download"/></svg>
+            <span>Download Installer (Win64)</span>
+          </a>
+          <a class="btn secondary" href="/verify-hashes/">
+            <svg aria-hidden="true"><use href="#ic-verify"/></svg>
+            <span>Verify Hashes</span>
+          </a>
+        </div>
+        <p class="muted" style="margin-top:8px">Source: slproweb.com (Shining Light Productions). We are not affiliated with the OpenSSL project or the vendor.</p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid">
+        <div class="col-12 panel">
+          <h2>Integrity and safety</h2>
+          <ul>
+            <li>Always verify the installer before running it. See <a href="/verify-hashes/">Verify Hashes</a> for certutil and PowerShell commands.</li>
+            <li>Download URL: <code>https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe</code></li>
+            <li>If the hash does not match the vendor’s published value, do not run the installer. Re‑download and re‑check.</li>
+          </ul>
+          <div class="kvs">
+            <span class="kv"><strong>File:</strong> Win64OpenSSL_Light-4_0_0.exe</span>
+            <span class="kv"><strong>Version:</strong> 4.0.0 (installer)</span>
+            <span class="kv"><strong>Arch:</strong> x86_64</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid">
+        <div class="col-6 panel">
+          <h2>Compatibility</h2>
+          <ul>
+            <li>Windows 10/11 (64‑bit).</li>
+            <li>May require the <a href="https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist?view=msvc-170" target="_blank" rel="noopener">Microsoft Visual C++ Redistributable</a>.</li>
+            <li>After install, add the <code>bin</code> folder to your PATH so you can run <code>openssl</code> from any terminal.</li>
+          </ul>
+        </div>
+        <div class="col-6 panel">
+          <h2>After you install</h2>
+          <ol>
+            <li>Open <a href="/add-to-path/">Add to PATH</a> and follow the steps.</li>
+            <li>Open a new terminal and run <code>openssl version</code> to confirm.</li>
+            <li>If you see a <code>libcrypto.dll</code> or <code>libssl.dll</code> error, visit <a href="/libcrypto-dll-error/">Fix DLL Error</a>.</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid">
+        <div class="col-12 panel">
+          <h2>Frequently asked questions</h2>
+          <div class="list">
+            <div class="panel">
+              <strong>Is this official?</strong>
+              <p>No. This is an unofficial Windows‑focused site linking to a third‑party build and providing setup guides.</p>
+            </div>
+            <div class="panel">
+              <strong>Where can I see the exact OpenSSL core version?</strong>
+              <p>Install, then run <code>openssl version -a</code> to display the built version and configuration.</p>
+            </div>
+            <div class="panel">
+              <strong>Can I use a portable ZIP instead?</strong>
+              <p>You can, but we currently link only the Win64 installer above. For other formats, see the vendor page.</p>
+            </div>
+            <div class="panel">
+              <strong>Does it support FIPS?</strong>
+              <p>OpenSSL 3.x uses providers (including FIPS). Enabling FIPS depends on the specific module and configuration. Read the <a href="/fips-notes/">FIPS Notes</a>.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="rel-guides">
+      <div class="container panel">
+        <h2 id="rel-guides">Related guides</h2>
+        <div class="list">
+          <a href="/verify-hashes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-verify"/></svg> Verify Hashes for the Installer</a>
+          <a href="/add-to-path/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-path"/></svg> Add OpenSSL to PATH (Windows)</a>
+          <a href="/libcrypto-dll-error/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-dll"/></svg> Fix libcrypto.dll / libssl.dll errors</a>
+          <a href="/fips-notes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-shield"/></svg> OpenSSL FIPS Notes</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>Not affiliated with the OpenSSL project. External downloads are hosted by their respective vendors.</div>
+      <div class="badges">
+        <span class="badge" id="last-updated">Last updated: <span>—</span></span>
+        <a class="badge" href="/robots.txt">robots.txt</a>
+        <a class="badge" href="/sitemap.xml">sitemap.xml</a>
+        <a class="badge" href="/privacy/">Privacy</a>
+        <a class="badge" href="/terms/">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cookie banner -->
+  <div class="cookie" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <h3>Cookie & analytics</h3>
+    <p>We use privacy‑friendly analytics (GA4) to understand traffic. You can accept or decline analytics cookies. You can change your choice anytime by clearing site data.</p>
+    <div class="row">
+      <button id="cookie-accept">Accept</button>
+      <button id="cookie-decline" class="secondary">Decline</button>
+      <button id="cookie-close" class="secondary ghost" aria-label="Close cookie banner">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Last updated
+    (function(){
+      var el = document.querySelector('#last-updated span');
+      if(el){ el.textContent = new Date(document.lastModified).toLocaleString(); }
+    })();
+
+    // Consent handling (same as Home)
+    const CONSENT_KEY = 'ga_consent';
+    function getConsent(){ try { return localStorage.getItem(CONSENT_KEY) || 'undecided'; } catch(e){ return 'undecided'; } }
+    function setConsent(v){ try { localStorage.setItem(CONSENT_KEY,v); } catch(e){} }
+    const banner = document.getElementById('cookie-banner');
+    const btnAccept = document.getElementById('cookie-accept');
+    const btnDecline = document.getElementById('cookie-decline');
+    const btnClose = document.getElementById('cookie-close');
+    function applyConsent(state){
+      if(state==='granted'){
+        gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied'});
+      } else {
+        gtag('consent','update',{analytics_storage:'denied',ad_storage:'denied'});
+      }
+    }
+    function initConsent(){
+      var s = getConsent();
+      if(s==='granted'){ applyConsent('granted'); banner.classList.remove('show'); }
+      else if(s==='denied'){ applyConsent('denied'); banner.classList.remove('show'); }
+      else { banner.classList.add('show'); }
+    }
+    btnAccept.addEventListener('click', function(){ setConsent('granted'); applyConsent('granted'); banner.classList.remove('show'); });
+    btnDecline.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+    btnClose.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+    initConsent();
+
+    // Download tracking
+    function trackDownload(url){
+      try{
+        gtag('event','file_download',{
+          event_category:'downloads',
+          event_label:'Win64OpenSSL_Light-4_0_0.exe',
+          file_url:url
+        });
+      }catch(e){}
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,324 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Add OpenSSL to PATH on Windows — Step‑by‑Step</title>
+  <meta name="description" content="Step‑by‑step guide to add OpenSSL to the Windows PATH (user or system) so you can run openssl from any terminal. Verification and troubleshooting included.">
+  <link rel="canonical" href="https://openssl-windows.github.io/add-to-path/">
+  <meta property="og:title" content="Add OpenSSL to PATH on Windows — Step‑by‑Step">
+  <meta property="og:description" content="Add OpenSSL to PATH on Windows 10/11. GUI and command‑line methods, verification, and fixes.">
+  <meta property="og:type" content="article">
+  <meta property="og:url" content="https://openssl-windows.github.io/add-to-path/">
+  <meta property="og:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="Add OpenSSL to PATH on Windows — Step‑by‑Step">
+  <meta name="twitter:description" content="User/system PATH methods, verify with openssl version, and troubleshoot PATH issues.">
+  <meta name="twitter:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta name="theme-color" content="#a51e22">
+  <meta property="article:modified_time" content="2026-05-01T18:25:42Z">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root{--bg:#ffffff;--bg-alt:#f6f6f6;--text:#111;--muted:#444;--brand:#a51e22;--brand-600:#7f171a;--focus:#004aad;--radius:12px;--maxw:1080px}
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    a:focus,button:focus{outline:2px solid var(--focus);outline-offset:2px}
+    code{background:#fafafa;border:1px solid #eee;border-radius:6px;padding:0 4px}
+    pre{background:#fafafa;border:1px solid #eee;border-radius:10px;padding:12px;overflow:auto}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header{border-bottom:1px solid #e6e6e6;background:#fff;position:sticky;top:0;z-index:50}
+    .topbar{display:flex;align-items:center;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand svg{width:28px;height:28px;fill:var(--brand)}
+    nav{margin-left:auto}
+    nav a{margin:0 10px;font-weight:600}
+    .hero{background:var(--bg-alt);padding:36px 0}
+    .hero h1{margin:0 0 8px;font-size:clamp(1.8rem,3vw,2.4rem)}
+    .hero p.sub{margin:0 0 18px;color:var(--muted)}
+    .breadcrumbs{font-size:.95rem;margin:10px 0;color:var(--muted)}
+    .breadcrumbs a{color:inherit}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:2px solid var(--brand);color:#fff;background:var(--brand);padding:12px 16px;border-radius:10px;font-weight:700}
+    .btn:hover{background:var(--brand-600);border-color:var(--brand-600);text-decoration:none}
+    .btn.secondary{background:transparent;color:var(--brand)}
+    .btn svg{width:18px;height:18px;fill:currentColor}
+    .row{display:flex;flex-wrap:wrap;gap:12px}
+    .section{padding:28px 0}
+    .panel{background:#fff;border:1px solid #eee;border-radius:var(--radius);padding:16px}
+    .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
+    .col-12{grid-column:span 12}
+    @media(min-width:800px){.col-6{grid-column:span 6}}
+    footer{border-top:1px solid #e6e6e6;margin-top:24px}
+    .footer-inner{padding:20px 0;color:var(--muted);font-size:.95rem}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #eee;border-radius:999px;padding:6px 10px;background:#fff}
+    .muted{color:var(--muted)}
+    .list{display:grid;gap:10px}
+    .list .qa{border:1px solid #eee;border-radius:10px;padding:12px;background:#fff}
+    /* Cookie banner */
+    .cookie{position:fixed;z-index:70;inset:auto 10px 10px 10px;background:#fff;border:1px solid #ddd;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:16px;display:none;max-width:680px}
+    .cookie.show{display:block}
+    .cookie h3{margin:0 0 6px;font-size:1.05rem}
+    .cookie p{margin:0 0 12px;color:var(--muted)}
+    .cookie .row{display:flex;gap:10px;flex-wrap:wrap}
+    .cookie button{border:2px solid var(--brand);background:var(--brand);color:#fff;border-radius:10px;padding:10px 12px;font-weight:700}
+    .cookie button.secondary{background:transparent;color:var(--brand)}
+    .cookie .ghost{border-color:#bbb;color:#444}
+    .sr-only{position:absolute;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}
+  </style>
+  <!-- GA4 (Consent Mode default denied) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LS4WMPCHEP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('consent','default',{
+      analytics_storage:'denied',
+      ad_storage:'denied',
+      functionality_storage:'granted',
+      security_storage:'granted',
+      wait_for_update:500
+    });
+    gtag('js', new Date());
+    gtag('config','G-LS4WMPCHEP');
+  </script>
+  <!-- JSON-LD: WebPage + SoftwareApplication + FAQ -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"Add OpenSSL to PATH on Windows — Step‑by‑Step",
+    "url":"https://openssl-windows.github.io/add-to-path/",
+    "inLanguage":"en",
+    "dateModified":"2026-05-01T18:25:42Z",
+    "breadcrumb":{
+      "@type":"BreadcrumbList",
+      "itemListElement":[
+        {"@type":"ListItem","position":1,"name":"Home","item":"https://openssl-windows.github.io/"},
+        {"@type":"ListItem","position":2,"name":"Add to PATH","item":"https://openssl-windows.github.io/add-to-path/"}
+      ]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"OpenSSL for Windows (Win64)",
+    "operatingSystem":"Windows 10/11 (64-bit)",
+    "applicationCategory":"DeveloperTool",
+    "softwareVersion":"4.0.0 (installer)",
+    "url":"https://openssl-windows.github.io/win64-prebuilt/",
+    "downloadUrl":"https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe",
+    "isAccessibleForFree":true,
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "publisher":{"@type":"Organization","name":"OpenSSL for Windows (Unofficial)","url":"https://openssl-windows.github.io/"}
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"How do I add OpenSSL to the PATH for my user?","acceptedAnswer":{"@type":"Answer","text":"Open Settings > System > About > Advanced system settings > Environment Variables. Under User variables, select Path > Edit > New, then add the OpenSSL bin folder (e.g., C:\\Program Files\\OpenSSL-Win64\\bin). Click OK, then reopen your terminal."}},
+      {"@type":"Question","name":"How do I add it to the system PATH for all users?","acceptedAnswer":{"@type":"Answer","text":"Open Advanced system settings > Environment Variables. Under System variables, select Path > Edit > New, add the OpenSSL bin folder, and click OK. You may need administrator rights. Reopen terminals for changes to take effect."}},
+      {"@type":"Question","name":"Do I need to restart my PC?","acceptedAnswer":{"@type":"Answer","text":"Usually not, but you must open a new terminal session. Some apps may require a sign‑out or restart to pick up environment changes."}},
+      {"@type":"Question","name":"'openssl' is not recognized. What should I do?","acceptedAnswer":{"@type":"Answer","text":"Ensure the correct bin directory is in PATH and appears before conflicting tools. Open a new terminal and run 'where openssl' (cmd) or 'Get-Command openssl' (PowerShell). If DLL errors appear, install the VC++ Redistributable and check architecture."}},
+      {"@type":"Question","name":"How do I remove OpenSSL from PATH?","acceptedAnswer":{"@type":"Answer","text":"Open Environment Variables, edit the relevant Path (User or System), and remove the OpenSSL bin entry. Click OK on all dialogs and reopen terminals."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- SVG sprite -->
+  <svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 1 1 8.707 10.293L11 12.586V4a1 1 0 0 1 1-1z"></path><path d="M5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"></path></symbol>
+    <symbol id="ic-verify" viewBox="0 0 24 24"><path d="M12 2l3.09 3.09L19 6l-1.91 3.09L17 12l-3.09-1.91L10 12l.91-2.91L9 6l3.09-.91L12 2z"></path><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-path" viewBox="0 0 24 24"><path d="M4 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h11" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-dll" viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 2v5h5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 14h2v4H7zm4 0h2v4h-2zm4 0h2v4h-2z"/></symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="ic-external" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V7.414l-8.293 8.293-1.414-1.414L17.586 6H14V3z"></path><path d="M5 5h6v2H7v10h10v-4h2v6H5V5z"></path></symbol>
+  </svg>
+
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/" aria-label="OpenSSL for Windows home">
+        <svg aria-hidden="true"><use href="#ic-shield"/></svg>
+        <span>OpenSSL for Windows</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="/win64-prebuilt/">Win64 Prebuilt</a>
+        <a href="/verify-hashes/">Verify Hashes</a>
+        <a href="/add-to-path/" aria-current="page">Add to PATH</a>
+        <a href="/libcrypto-dll-error/">Fix DLL Error</a>
+        <a href="/fips-notes/">FIPS Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="breadcrumbs" aria-label="Breadcrumbs"><a href="/">Home</a> › Add to PATH</div>
+        <h1>Add OpenSSL to PATH on Windows</h1>
+        <p class="sub">Make <code>openssl</code> available from any terminal. Choose per‑user (recommended) or system‑wide, then verify.</p>
+        <div class="row">
+          <a class="btn" href="/win64-prebuilt/"><svg aria-hidden="true"><use href="#ic-download"/></svg><span>Back to Download</span></a>
+          <a class="btn secondary" href="/libcrypto-dll-error/"><svg aria-hidden="true"><use href="#ic-dll"/></svg><span>Fix DLL Error</span></a>
+          <a class="btn" href="https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe" rel="noopener" onclick="trackDownload('https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe')"><svg aria-hidden="true"><use href="#ic-download"/></svg><span>Download Installer (Win64)</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container panel"><strong>TL;DR:</strong> Add the OpenSSL <code>bin</code> directory (e.g., <code>C:\\Program Files\\OpenSSL-Win64\\bin</code>) to your user PATH via Environment Variables, open a new terminal, and run <code>openssl version</code>.</div>
+    </section>
+
+    <section class="section">
+      <div class="container grid">
+        <div class="col-6 panel">
+          <h2>Option A — User PATH (recommended)</h2>
+          <ol>
+            <li>Open <strong>Settings</strong> → <strong>System</strong> → <strong>About</strong> → <strong>Advanced system settings</strong>.</li>
+            <li>Click <strong>Environment Variables…</strong>.</li>
+            <li>Under <strong>User variables</strong>, select <strong>Path</strong> → <strong>Edit</strong> → <strong>New</strong>.</li>
+            <li>Add the OpenSSL <code>bin</code> folder, e.g.: <code>C:\\Program Files\\OpenSSL-Win64\\bin</code></li>
+            <li>Confirm all dialogs with <strong>OK</strong>, then open a new terminal (Command Prompt or PowerShell).</li>
+          </ol>
+          <p class="muted">This affects only your user account. No admin rights needed.</p>
+        </div>
+        <div class="col-6 panel">
+          <h2>Option B — System PATH (all users)</h2>
+          <ol>
+            <li>Open <strong>Advanced system settings</strong> → <strong>Environment Variables…</strong>.</li>
+            <li>Under <strong>System variables</strong>, select <strong>Path</strong> → <strong>Edit</strong> → <strong>New</strong>.</li>
+            <li>Add the same <code>bin</code> path, e.g.: <code>C:\\Program Files\\OpenSSL-Win64\\bin</code></li>
+            <li>Click <strong>OK</strong> to save. Open a new terminal.</li>
+          </ol>
+          <p class="muted">Requires administrator rights. Be careful editing the system PATH.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container grid">
+        <div class="col-6 panel">
+          <h2>Option C — Command line (User PATH)</h2>
+          <p><strong>Command Prompt:</strong></p>
+          <pre>setx PATH "%PATH%;C:\Program Files\OpenSSL-Win64\bin"</pre>
+          <p><strong>PowerShell:</strong></p>
+          <pre>[Environment]::SetEnvironmentVariable("Path", $env:Path + ";C:\Program Files\OpenSSL-Win64\bin", "User")</pre>
+          <p class="muted">Open a new terminal after running these commands. If PATH grows very long, prefer the GUI editor.</p>
+        </div>
+        <div class="col-6 panel">
+          <h2>Verify it works</h2>
+          <ol>
+            <li>Open a new Command Prompt or PowerShell window.</li>
+            <li>Run <code>openssl version</code> — it should print the version line.</li>
+            <li>Check the resolved path: <code>where openssl</code> (cmd) or <code>Get-Command openssl</code> (PowerShell).</li>
+          </ol>
+          <p>If you see DLL errors, go to <a href="/libcrypto-dll-error/">Fix DLL Error</a>. If the command is not found, recheck your PATH entries.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="troubleshoot">
+      <div class="container panel">
+        <h2 id="troubleshoot">Troubleshooting tips</h2>
+        <ul>
+          <li><strong>New session required:</strong> Close and reopen your terminal to reload PATH.</li>
+          <li><strong>Path order matters:</strong> Ensure the OpenSSL <code>bin</code> entry appears before conflicting tools.</li>
+          <li><strong>Architecture:</strong> Use the x64 build on x64 Windows. Mismatches may cause <code>libcrypto.dll</code> errors.</li>
+          <li><strong>MSVC runtime:</strong> Install the <a href="https://learn.microsoft.com/cpp/windows/latest-supported-vc-redist?view=msvc-170" target="_blank" rel="noopener">Microsoft Visual C++ Redistributable</a> if required.</li>
+          <li><strong>Still stuck?</strong> See <a href="/libcrypto-dll-error/">Fix DLL Error</a> for step‑by‑step fixes.</li>
+        </ul>
+      </div>
+    </section>
+
+    <section class="section" aria-labelledby="rel-guides">
+      <div class="container panel">
+        <h2 id="rel-guides">Related guides</h2>
+        <div class="list">
+          <a href="/win64-prebuilt/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-download"/></svg> Download OpenSSL (Win64)</a>
+          <a href="/verify-hashes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-verify"/></svg> Verify Hashes for the Installer</a>
+          <a href="/libcrypto-dll-error/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-dll"/></svg> Fix libcrypto.dll / libssl.dll errors</a>
+          <a href="/fips-notes/"><svg aria-hidden="true" style="width:18px;height:18px"><use href="#ic-shield"/></svg> OpenSSL FIPS Notes</a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>Not affiliated with the OpenSSL project. External downloads are hosted by their respective vendors.</div>
+      <div class="badges">
+        <span class="badge" id="last-updated">Last updated: <span>—</span></span>
+        <a class="badge" href="/robots.txt">robots.txt</a>
+        <a class="badge" href="/sitemap.xml">sitemap.xml</a>
+        <a class="badge" href="/privacy/">Privacy</a>
+        <a class="badge" href="/terms/">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cookie banner -->
+  <div class="cookie" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <h3>Cookie & analytics</h3>
+    <p>We use privacy‑friendly analytics (GA4) to understand traffic. You can accept or decline analytics cookies. You can change your choice anytime by clearing site data.</p>
+    <div class="row">
+      <button id="cookie-accept">Accept</button>
+      <button id="cookie-decline" class="secondary">Decline</button>
+      <button id="cookie-close" class="secondary ghost" aria-label="Close cookie banner">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Last updated
+    (function(){
+      var el = document.querySelector('#last-updated span');
+      if(el){ el.textContent = new Date(document.lastModified).toLocaleString(); }
+    })();
+
+    // Consent handling
+    const CONSENT_KEY = 'ga_consent';
+    function getConsent(){ try { return localStorage.getItem(CONSENT_KEY) || 'undecided'; } catch(e){ return 'undecided'; } }
+    function setConsent(v){ try { localStorage.setItem(CONSENT_KEY,v); } catch(e){} }
+    const banner = document.getElementById('cookie-banner');
+    const btnAccept = document.getElementById('cookie-accept');
+    const btnDecline = document.getElementById('cookie-decline');
+    const btnClose = document.getElementById('cookie-close');
+    function applyConsent(state){
+      if(state==='granted'){
+        gtag('consent','update',{analytics_storage:'granted',ad_storage:'denied'});
+      } else {
+        gtag('consent','update',{analytics_storage:'denied',ad_storage:'denied'});
+      }
+    }
+    function initConsent(){
+      var s = getConsent();
+      if(s==='granted'){ applyConsent('granted'); banner.classList.remove('show'); }
+      else if(s==='denied'){ applyConsent('denied'); banner.classList.remove('show'); }
+      else { banner.classList.add('show'); }
+    }
+    btnAccept.addEventListener('click', function(){ setConsent('granted'); applyConsent('granted'); banner.classList.remove('show'); });
+    btnDecline.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+    btnClose.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+    initConsent();
+
+    // Download tracking
+    function trackDownload(url){
+      try{
+        gtag('event','file_download',{
+          event_category:'downloads',
+          event_label:'Win64OpenSSL_Light-4_0_0.exe',
+          file_url:url
+        });
+      }catch(e){}
+    }
+  </script>
+</body>
+</html>

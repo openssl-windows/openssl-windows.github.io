@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="180" height="180" viewBox="0 0 180 180" role="img" aria-label="OpenSSL for Windows">
+  <title>OpenSSL for Windows — Apple Touch Icon</title>
+  <defs>
+    <style>
+      .bg{fill:#a51e22}
+      .shield{fill:#ffffff}
+      .lock{fill:#7f171a}
+      .shackle{fill:none;stroke:#7f171a;stroke-width:8;stroke-linecap:round;stroke-linejoin:round}
+    </style>
+  </defs>
+  <!-- Solid background for iOS mask safety -->
+  <rect class="bg" x="0" y="0" width="180" height="180"/>
+  <!-- Centered emblem -->
+  <g transform="translate(90,90)">
+    <!-- Shield (scaled from 64x64 path) -->
+    <g transform="translate(-64,-64) scale(1.6)">
+      <path class="shield" d="M32 4L56 12v18c0 16-10.7 30.5-24 34C18.7 60.5 8 46 8 30V12l24-8z"/>
+      <!-- Lock body -->
+      <rect class="lock" x="22" y="30" width="20" height="16" rx="3"/>
+      <!-- Lock shackle -->
+      <path class="shackle" d="M24 30v-4a8 8 0 0 1 16 0v4"/>
+    </g>
+  </g>
+</svg>

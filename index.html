@@ -1,0 +1,384 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>OpenSSL for Windows — Safe Win64 Download, Setup, and Guides</title>
+  <meta name="description" content="Download OpenSSL for Windows (64-bit). Get a trusted Win64 installer, verify hashes, add to PATH, fix libcrypto.dll errors, and learn about FIPS mode.">
+  <link rel="canonical" href="https://openssl-windows.github.io/">
+  <meta property="og:title" content="OpenSSL for Windows — Safe Win64 Download, Setup, and Guides">
+  <meta property="og:description" content="Download OpenSSL for Windows (64-bit). Get a trusted Win64 installer, verify hashes, add to PATH, fix libcrypto.dll errors, and learn about FIPS mode.">
+  <meta property="og:type" content="website">
+  <meta property="og:url" content="https://openssl-windows.github.io/">
+  <meta property="og:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta property="og:locale" content="en_US">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="OpenSSL for Windows — Safe Win64 Download, Setup, and Guides">
+  <meta name="twitter:description" content="Download OpenSSL for Windows (64-bit). Get a trusted Win64 installer, verify hashes, add to PATH, fix libcrypto.dll errors, and learn about FIPS mode.">
+  <meta name="twitter:image" content="https://openssl-windows.github.io/og-image.png">
+  <meta name="theme-color" content="#a51e22">
+  <meta property="article:modified_time" content="2026-05-01T18:18:14Z">
+  <link rel="icon" href="/favicon.ico" sizes="any">
+  <link rel="icon" href="/favicon.svg" type="image/svg+xml">
+  <link rel="apple-touch-icon" href="/apple-touch-icon.png">
+  <style>
+    :root{
+      --bg:#ffffff;--bg-alt:#f6f6f6;--text:#111;--muted:#444;--brand:#a51e22;--brand-600:#7f171a;--focus:#004aad;--ring:3px;--radius:12px;--maxw:1080px
+    }
+    *{box-sizing:border-box}
+    html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,Segoe UI,Roboto,Helvetica,Arial,"Apple Color Emoji","Segoe UI Emoji"}
+    a{color:var(--brand);text-decoration:none}
+    a:hover{text-decoration:underline}
+    a:focus,button:focus,[role="button"]:focus{outline:2px solid var(--focus);outline-offset:2px}
+    img{max-width:100%;height:auto}
+    .container{max-width:var(--maxw);margin:0 auto;padding:0 20px}
+    header{border-bottom:1px solid #e6e6e6;background:#fff;position:sticky;top:0;z-index:50}
+    .topbar{display:flex;align-items:center;gap:16px;padding:12px 0}
+    .brand{display:flex;align-items:center;gap:10px;font-weight:700}
+    .brand svg{width:28px;height:28px;fill:var(--brand)}
+    nav{margin-left:auto}
+    nav a{margin:0 10px;font-weight:600}
+    .hero{background:var(--bg-alt);padding:48px 0}
+    .hero h1{font-size:clamp(1.8rem,3vw,2.6rem);margin:0 0 10px}
+    .hero p.sub{margin:0 0 24px;color:var(--muted)}
+    .cta-row{display:flex;flex-wrap:wrap;gap:12px}
+    .btn{display:inline-flex;align-items:center;gap:10px;border:2px solid var(--brand);color:#fff;background:var(--brand);padding:12px 16px;border-radius:10px;font-weight:700}
+    .btn:hover{background:var(--brand-600);border-color:var(--brand-600);text-decoration:none}
+    .btn.secondary{background:transparent;color:var(--brand)}
+    .btn.secondary:hover{background:#f9e7e8}
+    .btn svg{width:18px;height:18px;fill:currentColor}
+    .disclaimer{margin-top:14px;color:var(--muted);font-size:.95rem}
+    .grid{display:grid;gap:18px;grid-template-columns:repeat(12,1fr)}
+    .card{grid-column:span 12;background:#fff;border:1px solid #eee;border-radius:var(--radius);padding:18px}
+    .card h3{margin:0 0 6px;font-size:1.05rem}
+    .card p{margin:0;color:var(--muted)}
+    .card .icon{width:22px;height:22px;margin-right:8px;fill:var(--brand);vertical-align:-4px}
+    @media(min-width:720px){.card{grid-column:span 6}}
+    @media(min-width:980px){.card{grid-column:span 4}}
+    .section{padding:36px 0}
+    .section h2{margin:0 0 10px;font-size:1.4rem}
+    .list{display:grid;gap:10px}
+    .list a{display:flex;align-items:center;gap:8px;padding:10px 12px;border:1px solid #eee;border-radius:10px}
+    .list a:hover{background:#fafafa}
+    .list svg{width:18px;height:18px;fill:var(--brand)}
+    .muted{color:var(--muted)}
+    footer{border-top:1px solid #e6e6e6;margin-top:24px}
+    .footer-inner{padding:20px 0;color:var(--muted);font-size:.95rem}
+    .badges{display:flex;gap:10px;flex-wrap:wrap;margin-top:8px}
+    .badge{display:inline-flex;align-items:center;gap:6px;border:1px solid #eee;border-radius:999px;padding:6px 10px;background:#fff}
+    .sr-only{position:absolute;clip:rect(1px,1px,1px,1px);clip-path:inset(50%);height:1px;width:1px;overflow:hidden;white-space:nowrap}
+    /* Cookie banner */
+    .cookie{position:fixed;z-index:70;inset:auto 10px 10px 10px;background:#fff;border:1px solid #ddd;border-radius:14px;box-shadow:0 8px 24px rgba(0,0,0,.12);padding:16px;display:none;max-width:680px}
+    .cookie.show{display:block}
+    .cookie h3{margin:0 0 6px;font-size:1.05rem}
+    .cookie p{margin:0 0 12px;color:var(--muted)}
+    .cookie .row{display:flex;gap:10px;flex-wrap:wrap}
+    .cookie button{border:2px solid var(--brand);background:var(--brand);color:#fff;border-radius:10px;padding:10px 12px;font-weight:700}
+    .cookie button.secondary{background:transparent;color:var(--brand)}
+    .cookie .ghost{border-color:#bbb;color:#444}
+    .breadcrumbs{font-size:.95rem;margin:10px 0;color:var(--muted)}
+    .breadcrumbs a{color:inherit}
+    .tldr{background:#fff;border:1px solid #eee;border-radius:var(--radius);padding:14px}
+    .upcoming{background:#fff4f4;border:1px solid #ffd6d6}
+  </style>
+  <!-- GA4 base (with Consent Mode default denied) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-LS4WMPCHEP"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments)}
+    gtag('consent','default',{
+      analytics_storage:'denied',
+      ad_storage:'denied',
+      functionality_storage:'granted',
+      security_storage:'granted',
+      wait_for_update: 500
+    });
+    gtag('js', new Date());
+    gtag('config','G-LS4WMPCHEP');
+  </script>
+  <!-- Structured Data JSON-LD -->
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebSite",
+    "name":"OpenSSL for Windows",
+    "url":"https://openssl-windows.github.io/",
+    "inLanguage":"en",
+    "publisher":{
+      "@type":"Organization",
+      "name":"OpenSSL for Windows (Unofficial)",
+      "url":"https://openssl-windows.github.io/",
+      "logo":{"@type":"ImageObject","url":"https://openssl-windows.github.io/favicon.svg"}
+    },
+    "potentialAction":{
+      "@type":"SearchAction",
+      "target":"https://openssl-windows.github.io/search?q={query}",
+      "query-input":"required name=query"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"WebPage",
+    "name":"OpenSSL for Windows — Safe Win64 Download, Setup, and Guides",
+    "url":"https://openssl-windows.github.io/",
+    "inLanguage":"en",
+    "isPartOf":{"@id":"https://openssl-windows.github.io/#website"},
+    "dateModified":"2026-05-01T18:18:14Z",
+    "breadcrumb":{
+      "@type":"BreadcrumbList",
+      "itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://openssl-windows.github.io/"}]
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"SoftwareApplication",
+    "name":"OpenSSL for Windows (Win64)",
+    "operatingSystem":"Windows 10/11 (64-bit)",
+    "applicationCategory":"DeveloperTool",
+    "softwareVersion":"4.0.0 (installer)",
+    "url":"https://openssl-windows.github.io/win64-prebuilt/",
+    "downloadUrl":"https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe",
+    "isAccessibleForFree":true,
+    "offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},
+    "publisher":{"@type":"Organization","name":"OpenSSL for Windows (Unofficial)","url":"https://openssl-windows.github.io/"},
+    "additionalProperty":[
+      {"@type":"PropertyValue","name":"OpenSSL core","value":"3.x series"},
+      {"@type":"PropertyValue","name":"Architecture","value":"x86_64 (Win64)"}
+    ]
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context":"https://schema.org",
+    "@type":"FAQPage",
+    "mainEntity":[
+      {"@type":"Question","name":"How do I install OpenSSL on Windows?","acceptedAnswer":{"@type":"Answer","text":"Download the Win64 installer, run it, and then add the OpenSSL bin directory to your PATH. Verify the download hash before you install."}},
+      {"@type":"Question","name":"How do I verify the download hash on Windows?","acceptedAnswer":{"@type":"Answer","text":"Use certutil or PowerShell Get-FileHash to compute the SHA256 of the installer and compare it to the published value."}},
+      {"@type":"Question","name":"Why does Windows say libcrypto.dll is missing?","acceptedAnswer":{"@type":"Answer","text":"This usually indicates a PATH issue, an architecture mismatch, or a missing Microsoft Visual C++ Redistributable. Install the correct runtime and ensure the bin folder is on PATH."}},
+      {"@type":"Question","name":"Does this site represent the official OpenSSL project?","acceptedAnswer":{"@type":"Answer","text":"No. This is an unofficial Windows-focused site. We link to a third-party Windows build and provide setup guides."}}
+    ]
+  }
+  </script>
+</head>
+<body>
+  <!-- SVG sprite -->
+  <svg class="sr-only" aria-hidden="true" xmlns="http://www.w3.org/2000/svg">
+    <symbol id="ic-download" viewBox="0 0 24 24"><path d="M12 3a1 1 0 0 1 1 1v8.586l2.293-2.293a1 1 0 1 1 1.414 1.414l-4 4a1 1 0 0 1-1.414 0l-4-4A1 1 0 1 1 8.707 10.293L11 12.586V4a1 1 0 0 1 1-1z"></path><path d="M5 19a1 1 0 0 1 1-1h12a1 1 0 1 1 0 2H6a1 1 0 0 1-1-1z"></path></symbol>
+    <symbol id="ic-verify" viewBox="0 0 24 24"><path d="M12 2l3.09 3.09L19 6l-1.91 3.09L17 12l-3.09-1.91L10 12l.91-2.91L9 6l3.09-.91L12 2z"></path><path d="M9 12l2 2 4-4" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-path" viewBox="0 0 24 24"><path d="M4 6h7a3 3 0 0 1 0 6H9a3 3 0 0 0 0 6h11" stroke="currentColor" stroke-width="2" fill="none"/></symbol>
+    <symbol id="ic-dll" viewBox="0 0 24 24"><path d="M6 2h9l5 5v13a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2z" fill="none" stroke="currentColor" stroke-width="2"/><path d="M14 2v5h5" stroke="currentColor" stroke-width="2" fill="none"/><path d="M7 14h2v4H7zm4 0h2v4h-2zm4 0h2v4h-2z"/></symbol>
+    <symbol id="ic-shield" viewBox="0 0 24 24"><path d="M12 2l8 3v6c0 5.25-3.5 10-8 11-4.5-1-8-5.75-8-11V5l8-3z" fill="none" stroke="currentColor" stroke-width="2"/></symbol>
+    <symbol id="ic-external" viewBox="0 0 24 24"><path d="M14 3h7v7h-2V7.414l-8.293 8.293-1.414-1.414L17.586 6H14V3z"></path><path d="M5 5h6v2H7v10h10v-4h2v6H5V5z"></path></symbol>
+  </svg>
+
+  <header>
+    <div class="container topbar">
+      <a class="brand" href="/" aria-label="OpenSSL for Windows home">
+        <svg aria-hidden="true"><use href="#ic-shield"/></svg>
+        <span>OpenSSL for Windows</span>
+      </a>
+      <nav aria-label="Primary">
+        <a href="/win64-prebuilt/">Win64 Prebuilt</a>
+        <a href="/verify-hashes/">Verify Hashes</a>
+        <a href="/add-to-path/">Add to PATH</a>
+        <a href="/libcrypto-dll-error/">Fix DLL Error</a>
+        <a href="/fips-notes/">FIPS Notes</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <div class="hero">
+      <div class="container">
+        <nav class="breadcrumbs" aria-label="Breadcrumbs">Home</nav>
+        <h1>OpenSSL for Windows — Download and Set Up in Minutes</h1>
+        <p class="sub">Get a Win64 prebuilt installer, verify SHA256 hashes, add OpenSSL to PATH, and fix common libcrypto.dll issues. Clear, fast, and safe.</p>
+        <div class="cta-row">
+          <a id="download-main" class="btn" href="https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe" rel="noopener" onclick="trackDownload('https://slproweb.com/download/Win64OpenSSL_Light-4_0_0.exe')">
+            <svg aria-hidden="true"><use href="#ic-download"/></svg>
+            <span>Download OpenSSL for Windows (Win64)</span>
+          </a>
+          <a class="btn secondary" href="/verify-hashes/">
+            <svg aria-hidden="true"><use href="#ic-verify"/></svg>
+            <span>Verify Hashes First</span>
+          </a>
+        </div>
+        <p class="disclaimer">We are not affiliated with the OpenSSL project. The installer is provided by a third party. Always verify file integrity before installing.</p>
+      </div>
+    </div>
+
+    <section class="section">
+      <div class="container">
+        <div class="tldr">
+          <strong>TL;DR:</strong> Download the Win64 installer, verify its SHA256, install, then add the <code>bin</code> folder to your PATH. If Windows complains about <code>libcrypto.dll</code>, check architecture and the MSVC runtime.
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Everything you need for OpenSSL on Windows</h2>
+        <div class="grid">
+          <a class="card" href="/win64-prebuilt/">
+            <h3><svg class="icon" aria-hidden="true"><use href="#ic-download"/></svg> Win64 Prebuilt</h3>
+            <p>Grab the 64‑bit installer for Windows 10/11. Fast, safe, and up‑to‑date.</p>
+          </a>
+          <a class="card" href="/verify-hashes/">
+            <h3><svg class="icon" aria-hidden="true"><use href="#ic-verify"/></svg> Verify Hashes</h3>
+            <p>Use certutil or PowerShell to verify SHA256 before you run any installer.</p>
+          </a>
+          <a class="card" href="/add-to-path/">
+            <h3><svg class="icon" aria-hidden="true"><use href="#ic-path"/></svg> Add to PATH</h3>
+            <p>Run <code>openssl</code> from any terminal by updating your PATH safely.</p>
+          </a>
+          <a class="card" href="/libcrypto-dll-error/">
+            <h3><svg class="icon" aria-hidden="true"><use href="#ic-dll"/></svg> Fix libcrypto.dll Error</h3>
+            <p>Resolve missing DLL errors: PATH fixes, VC++ runtime, architecture match.</p>
+          </a>
+          <a class="card" href="/fips-notes/">
+            <h3><svg class="icon" aria-hidden="true"><use href="#ic-shield"/></svg> FIPS Notes</h3>
+            <p>Understand FIPS provider basics in OpenSSL 3.x on Windows.</p>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>Quick start</h2>
+        <ol>
+          <li>Download the Win64 installer from the button above.</li>
+          <li>Verify the SHA256 hash (see <a href="/verify-hashes/">Verify Hashes</a>).</li>
+          <li>Install and note the installation path (e.g., <code>C:\\Program Files\\OpenSSL-Win64</code>).</li>
+          <li>Add the <code>bin</code> folder to PATH (see <a href="/add-to-path/">Add to PATH</a>).</li>
+          <li>Open a new terminal and run <code>openssl version</code>. If errors appear, see <a href="/libcrypto-dll-error/">Fix DLL Error</a>.</li>
+        </ol>
+        <div class="badges">
+          <span class="badge"><strong>OS:</strong> Windows 10/11 (64‑bit)</span>
+          <span class="badge"><strong>Version:</strong> 4.0.0 installer</span>
+          <a class="badge" href="https://slproweb.com/products/Win32OpenSSL.html" target="_blank" rel="noopener">
+            Vendor page <svg aria-hidden="true" style="width:14px;height:14px"><use href="#ic-external"/></svg>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <h2>FAQ</h2>
+        <div class="list">
+          <div class="tldr">
+            <strong>What is included?</strong> A Windows build of OpenSSL for x64. If you need to validate the exact OpenSSL core version, run <code>openssl version -a</code> after install.
+          </div>
+          <div class="tldr">
+            <strong>Where are the hashes?</strong> We publish verification steps on the <a href="/verify-hashes/">Verify Hashes</a> page.
+          </div>
+          <div class="tldr">
+            <strong>Is this official?</strong> No. This is an unofficial Windows-focused site. We link to a third-party build and provide setup guides.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container upcoming" aria-labelledby="upcoming-title">
+        <h2 id="upcoming-title">Upcoming pages in this series</h2>
+        <ul>
+          <li>/win64-prebuilt/ — Download page with integrity notes and compatibility.</li>
+          <li>/verify-hashes/ — Hash verification on Windows (certutil, PowerShell).</li>
+          <li>/add-to-path/ — Add OpenSSL to PATH (user/system) with safety tips.</li>
+          <li>/libcrypto-dll-error/ — Fix libcrypto.dll/libssl.dll missing issues.</li>
+          <li>/fips-notes/ — FIPS provider overview for OpenSSL 3.x on Windows.</li>
+        </ul>
+        <p class="muted">We will publish the pages one by one. Bookmark this site.</p>
+      </div>
+    </section>
+
+  </main>
+
+  <footer>
+    <div class="container footer-inner">
+      <div>Not affiliated with the OpenSSL project. Use at your own discretion. External downloads are hosted by their respective vendors.</div>
+      <div class="badges">
+        <span class="badge" id="last-updated">Last updated: <span>—</span></span>
+        <a class="badge" href="/robots.txt">robots.txt</a>
+        <a class="badge" href="/sitemap.xml">sitemap.xml</a>
+        <a class="badge" href="/privacy/">Privacy</a>
+        <a class="badge" href="/terms/">Terms</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Cookie banner -->
+  <div class="cookie" id="cookie-banner" role="dialog" aria-live="polite" aria-label="Cookie consent">
+    <h3>Cookie & analytics</h3>
+    <p>We use privacy‑friendly analytics (GA4) to understand traffic. You can accept or decline analytics cookies. You can change your choice anytime by clearing site data.</p>
+    <div class="row">
+      <button id="cookie-accept">Accept</button>
+      <button id="cookie-decline" class="secondary">Decline</button>
+      <button id="cookie-close" class="secondary ghost" aria-label="Close cookie banner">Close</button>
+    </div>
+  </div>
+
+  <script>
+    // Last updated text
+    (function(){
+      var el = document.querySelector('#last-updated span');
+      if(el){ el.textContent = new Date(document.lastModified).toLocaleString(); }
+    })();
+
+    // Consent persistence
+    const CONSENT_KEY = 'ga_consent';
+    function getConsent(){ try { return localStorage.getItem(CONSENT_KEY) || 'undecided'; } catch(e){ return 'undecided'; } }
+    function setConsent(val){ try { localStorage.setItem(CONSENT_KEY,val); } catch(e){} }
+
+    const banner = document.getElementById('cookie-banner');
+    const btnAccept = document.getElementById('cookie-accept');
+    const btnDecline = document.getElementById('cookie-decline');
+    const btnClose = document.getElementById('cookie-close');
+
+    function applyConsent(state){
+      if(state === 'granted'){
+        gtag('consent','update',{ analytics_storage:'granted', ad_storage:'denied' });
+      } else {
+        gtag('consent','update',{ analytics_storage:'denied', ad_storage:'denied' });
+      }
+    }
+
+    function initConsent(){
+      var state = getConsent();
+      if(state === 'granted'){
+        applyConsent('granted');
+        banner.classList.remove('show');
+      } else if(state === 'denied'){
+        applyConsent('denied');
+        banner.classList.remove('show');
+      } else {
+        banner.classList.add('show');
+      }
+    }
+
+    btnAccept.addEventListener('click', function(){ setConsent('granted'); applyConsent('granted'); banner.classList.remove('show'); });
+    btnDecline.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+    btnClose.addEventListener('click', function(){ setConsent('denied'); applyConsent('denied'); banner.classList.remove('show'); });
+
+    initConsent();
+
+    // Download tracking helper
+    function trackDownload(url){
+      try{
+        gtag('event','file_download',{
+          event_category:'downloads',
+          event_label:'Win64OpenSSL_Light-4_0_0.exe',
+          file_url:url
+        });
+      }catch(e){}
+    }
+  </script>
+</body>
+</html>

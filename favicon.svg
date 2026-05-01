@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="OpenSSL for Windows">
+  <title>OpenSSL for Windows</title>
+  <defs>
+    <style>
+      .brand{fill:#a51e22}
+      .fg{fill:#ffffff}
+      .stroke{stroke:#ffffff;stroke-width:4;stroke-linecap:round;stroke-linejoin:round;fill:none}
+    </style>
+  </defs>
+  <!-- Shield background -->
+  <path class="brand" d="M32 4L56 12v18c0 16-10.7 30.5-24 34C18.7 60.5 8 46 8 30V12l24-8z"/>
+  <!-- Lock body (white) -->
+  <rect class="fg" x="22" y="30" width="20" height="16" rx="3"/>
+  <!-- Lock shackle (white stroke) -->
+  <path class="stroke" d="M24 30v-4a8 8 0 0 1 16 0v4"/>
+</svg>

@@ -1,0 +1,11 @@
+# robots.txt for https://openssl-windows.github.io
+# Allow all crawlers to access public content
+User-agent: *
+Allow: /
+
+# Optional: keep policy/legal pages out of the index if present
+Disallow: /privacy/
+Disallow: /terms/
+
+# Sitemap location
+Sitemap: https://openssl-windows.github.io/sitemap.xml
